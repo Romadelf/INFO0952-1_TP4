@@ -1,6 +1,7 @@
 # Remplissez les "..." ci-dessous pour préciser les complexités des opérations
-# d'addition en fonction du type des matrices, du nombre de non-zéros de la première
-# matrice, noté n1, et du nombre de non-zéros de la seconde matrice, noté n2.
+# d'addition en fonction du type des matrices, du nombre de non-zéros de la
+# première matrice, noté n1, et du nombre de non-zéros de la seconde matrice,
+# noté n2.
 
 # DOK + DOK: O(...)
 # DOK + COO: O(...)
@@ -9,7 +10,9 @@
 
 from bisect import bisect_left
 
-# See full repo at https://github.com/Romadelf/INFO0952-1_TP4 (access will be made public after late due date)
+# See full repo at https://github.com/Romadelf/INFO0952-1_TP4 (access will be
+# made public after late due date)
+
 
 class SparseMatrix:
     """a generic class to represent sparse matrices"""
@@ -84,7 +87,10 @@ class SparseDOK(SparseMatrix):
         if type_key == int:
             return self.dict.get(key, 0)
         else:
-            return self.__getslice(key[0].start, key[0].stop, key[1].start, key[1].stop)
+            return self.__getslice(key[0].start,
+                                   key[0].stop,
+                                   key[1].start,
+                                   key[1].stop)
 
     def __setitem__(self, key, value):
         """Implement assignments like M[i,j]=value"""
@@ -108,16 +114,16 @@ class SparseDOK(SparseMatrix):
         - self: SparseDOK
             The current matrix
         - other: SparseMatrix
-            The matrix to be added to the current matrix that could be either of type
-            SparseDOK or SparseCOO.
+            The matrix to be added to the current matrix that could be either of
+            type SparseDOK or SparseCOO.
 
         Returns:
         - SparseMatrix
             The result of the addition, i.e., a newly created SparseDOK matrix.
 
         Raises:
-        - ValueError: If the dimensions of the matrices are incompatible or if the type
-                      of the other matrix is not supported.
+        - ValueError: If the dimensions of the matrices are incompatible or if
+                      the type of the other matrix is not supported.
         """
         if issubclass(type(other), SparseMatrix):
             if self.m != other.m or self.n != other.n:
@@ -158,7 +164,7 @@ class SparseDOK(SparseMatrix):
     # TO BE COMPLETED
     def __getslice(self, rmin, rmax, cmin, cmax):
         """
-        Extracts a submatrix from the current matrix. Equivalent to 
+        Extracts a submatrix from the current matrix. Equivalent to
         M[rmin:rmax, cmin:cmax], with M the current matrix.
 
         Parameters:
@@ -192,7 +198,9 @@ class SparseCOO(SparseMatrix):
 
     def __getkeyindex(self, key):
         return bisect_left(
-            self.keys, key[0] * self.n + key[1], key=lambda k: k[0] * self.n + k[1]
+            self.keys,
+            key[0] * self.n + key[1],
+            key=lambda k: k[0] * self.n + k[1]
         )
 
     def __getitem__(self, key):
@@ -205,7 +213,10 @@ class SparseCOO(SparseMatrix):
             else:
                 return 0
         else:
-            return self.__getslice(key[0].start, key[0].stop, key[1].start, key[1].stop)
+            return self.__getslice(key[0].start,
+                                   key[0].stop,
+                                   key[1].start,
+                                   key[1].stop)
 
     def __setitem__(self, key, value):
         """Implement assignations like M[i,j]=value"""
@@ -234,16 +245,16 @@ class SparseCOO(SparseMatrix):
         - self: SparseCOO
             The current matrix
         - other: SparseMatrix
-            The matrix to be added to the current matrix that could be either of type 
-            SparseDOK or SparseCOO.
+            The matrix to be added to the current matrix that could be either of
+            type SparseDOK or SparseCOO.
 
         Returns:
         - SparseMatrix
             The result of the addition, i.e., a newly created SparseCOO matrix.
 
         Raises:
-        - ValueError: If the dimensions of the matrices are incompatible or if the type
-                      of the other matrix is not supported.
+        - ValueError: If the dimensions of the matrices are incompatible or if
+                      the type of the other matrix is not supported.
         """
         print("Not implemented yet")
         return None
@@ -251,7 +262,7 @@ class SparseCOO(SparseMatrix):
     # TO BE COMPLETED
     def __getslice(self, rmin, rmax, cmin, cmax):
         """
-        Extracts a submatrix from the current matrix. Equivalent to 
+        Extracts a submatrix from the current matrix. Equivalent to
         M[rmin:rmax, cmin:cmax], with M the current matrix.
 
         Parameters:
@@ -356,7 +367,8 @@ if __name__ == "__main__":
     print("Test getslice")
     print("-------------")
 
-    mdok = SparseDOK(4, 4, [[0, 0, 1, 2], [1, 0, -2, 0], [0, 0, 0, 0], [-1, 0, 2, 0]])
+    mdok = SparseDOK(4, 4, [[0, 0, 1, 2], [1, 0, -2, 0],
+                     [0, 0, 0, 0], [-1, 0, 2, 0]])
     print("mdok:")
     print(mdok)
 
@@ -366,7 +378,8 @@ if __name__ == "__main__":
     print("mdok[0:3, 1:4]")
     print(mdok[0:3, 2:4])
 
-    mcoo = SparseCOO(4, 4, [[0, 0, 1, 2], [1, 0, -2, 0], [0, 0, 0, 0], [-1, 0, 2, 0]])
+    mcoo = SparseCOO(4, 4, [[0, 0, 1, 2], [1, 0, -2, 0],
+                     [0, 0, 0, 0], [-1, 0, 2, 0]])
     print("mcoo:")
     print(mcoo)
 
