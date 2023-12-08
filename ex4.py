@@ -3,10 +3,10 @@
 # première matrice, noté n1, et du nombre de non-zéros de la seconde matrice,
 # noté n2.
 
-# DOK + DOK: O(...)
-# DOK + COO: O(...)
-# COO + COO: O(...)
-# COO + DOK: O(...)
+# DOK + DOK: O(n1 * n2)
+# DOK + COO: O(n1 * n2)
+# COO + COO: O(n1 * n2)
+# COO + DOK: O(n1 * n2)
 
 from bisect import bisect_left
 

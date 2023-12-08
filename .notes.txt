@@ -1,2 +1,4 @@
 - Dans SparseCOO#__getkeyindex, comment la lambda est-elle interpretée vu que la signature de bisect_left dans python ne comporte pas de lambda, à mon sens (contrairement à l'implémentation en ligne) ?
 - Dans ex4.py original, dans SparseCOO#__setitem__, la ligne 222 est atteignable notamment si self.keys[i] != key, mais rien ne prouve que value != 0. Or, on exécute les inserts indifféremment de cela. Est-ce un bug ?
+- Les complexités voulues sont-elles celles de temps ou d'espace ? J'ai supposé en temps.
+- Comment dict.copy() peut-il être O(n) selon https://wiki.python.org/moin/TimeComplexity alors que avec le slide 335, à la 4 ème ligne, dans le while, si copy() fait des insert, et que c'est à chaque fois le même hash, on a du n pour chaque élément donc n^2 vu la fin de la copie.
