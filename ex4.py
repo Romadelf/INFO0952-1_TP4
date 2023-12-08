@@ -246,7 +246,6 @@ class SparseCOO(SparseMatrix):
             self.values.insert(i, value)
             self.nnz += 1
 
-    # TO BE COMPLETED
     def __add__(self, other):
         """
         Implement the addition of two sparse matrices.
@@ -269,20 +268,47 @@ class SparseCOO(SparseMatrix):
         if issubclass(type(other), SparseMatrix):
             if self.m != other.m or self.n != other.n:
                 raise ValueError("Addition: incompatible matrix dimensions")
+            added_coo_sm = self.__copy()
             if type(other) is SparseCOO:
-                return self.__add_with_coo(other)
+                for i in range(other.nnz):
+                    added_coo_sm.__add_non_null_val(
+                        other.keys[i], other.values[i])
             elif type(other) is SparseDOK:
-                return self.__add_with_dok(other)
+                for key, val in other.dict.items():
+                    added_coo_sm.__add_non_null_val(key, val)
             else:
                 raise ValueError(
                     "Addition of SparseCOO matrix with SparseMatrix"
                     f"of type {type(other)} is impossible"
                 )
+            return added_coo_sm
         else:
             raise ValueError(
                 "Addition of SparseCOO matrix with object of"
                 f"type {type(other)} is impossible"
             )
+
+    def __copy(self):
+        new_coo_sm = SparseCOO(self.m, self.n)
+        new_coo_sm.keys = self.keys.copy()
+        new_coo_sm.values = self.values.copy()
+        new_coo_sm.nnz = self.nnz
+        return new_coo_sm
+
+    def __add_non_null_val(self, key, value):
+        i = self.__getkeyindex(key)
+        if i != len(self.keys) and self.keys[i] == key:
+            new_value = self.values[i] + value
+            if new_value == 0:
+                self.keys.pop(i)
+                self.values.pop(i)
+                self.nnz -= 1
+            else:
+                self.values[i] = new_value
+        else:
+            self.keys.insert(i, key)
+            self.values.insert(i, value)
+            self.nnz += 1
 
     # TO BE COMPLETED
     def __getslice(self, rmin, rmax, cmin, cmax):
@@ -340,13 +366,13 @@ if __name__ == "__main__":
     print(m2coo)
 
     sum12coo = m1coo + m2coo
-    '''print(f"m1coo+m2coo (nnz={sum12coo.getnbnz()}):")
+    print(f"m1coo+m2coo (nnz={sum12coo.getnbnz()}):")
     print(sum12coo)
 
     sum21coo = m2coo + m1coo
     print(f"m2coo+m1coo (nnz={sum21coo.getnbnz()}):")
     print(sum21coo)
-    '''
+
     print("Test DOK+COO")
     print("------------")
 
@@ -377,7 +403,7 @@ if __name__ == "__main__":
     print(m2dok)
 
     sum12coodok = m1coo + m2dok
-    '''print(f"m1coo+m2dok (nnz={sum12coodok.getnbnz()}):")
+    print(f"m1coo+m2dok (nnz={sum12coodok.getnbnz()}):")
     print(sum12coodok)
 
     print(f"m2coo (nnz={m2coo.getnbnz()}):")
@@ -388,7 +414,7 @@ if __name__ == "__main__":
     sum21coodok = m2coo + m1dok
     print(f"m2coo+m1dok (nnz={sum21coodok.getnbnz()}):")
     print(sum21coodok)
-    '''
+
     print("Test getslice")
     print("-------------")
 
