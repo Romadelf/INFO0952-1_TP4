@@ -166,9 +166,9 @@ class SparseDOK(SparseMatrix):
     def __add_with_coo(self, other):
         newsm = SparseDOK(self.m, self.n)
         newsm.dict = self.dict.copy()
+        newsm.nnz = self.nnz
         for i in range(other.nnz):
             newsm.__addvalindok(other.keys[i], other.values[i])
-        newsm.nnz = len(newsm.dict)
         return newsm
 
     # TO BE COMPLETED
