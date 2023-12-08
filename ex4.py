@@ -106,7 +106,6 @@ class SparseDOK(SparseMatrix):
             self.dict.pop(key)
             self.nnz -= 1
 
-    # TO BE COMPLETED
     def __add__(self, other):
         """
         Implement the addition of two sparse matrices.
@@ -131,6 +130,8 @@ class SparseDOK(SparseMatrix):
                 raise ValueError("Addition: incompatible matrix dimensions")
             if type(other) is SparseDOK:
                 return self.__add_with_dok(other)
+            elif type(other) is SparseCOO:
+                return self.__add_with_coo(other)
             else:
                 raise ValueError(
                     "Addition of SparseDOK matrix with SparseMatrix"
@@ -159,6 +160,14 @@ class SparseDOK(SparseMatrix):
         newsm.dict = self.dict.copy()
         for key, val in other.dict.items():
             newsm.__addvalindok(key, val)
+        newsm.nnz = len(newsm.dict)
+        return newsm
+
+    def __add_with_coo(self, other):
+        newsm = SparseDOK(self.m, self.n)
+        newsm.dict = self.dict.copy()
+        for i in range(other.nnz):
+            newsm.__addvalindok(other.keys[i], other.values[i])
         newsm.nnz = len(newsm.dict)
         return newsm
 
@@ -316,13 +325,13 @@ if __name__ == "__main__":
     print(m2coo)
 
     sum12coo = m1coo + m2coo
-''' print(f"m1coo+m2coo (nnz={sum12coo.getnbnz()}):")
+    '''print(f"m1coo+m2coo (nnz={sum12coo.getnbnz()}):")
     print(sum12coo)
 
     sum21coo = m2coo + m1coo
     print(f"m2coo+m1coo (nnz={sum21coo.getnbnz()}):")
     print(sum21coo)
-
+    '''
     print("Test DOK+COO")
     print("------------")
 
@@ -353,7 +362,7 @@ if __name__ == "__main__":
     print(m2dok)
 
     sum12coodok = m1coo + m2dok
-    print(f"m1coo+m2dok (nnz={sum12coodok.getnbnz()}):")
+    '''print(f"m1coo+m2dok (nnz={sum12coodok.getnbnz()}):")
     print(sum12coodok)
 
     print(f"m2coo (nnz={m2coo.getnbnz()}):")
@@ -364,7 +373,7 @@ if __name__ == "__main__":
     sum21coodok = m2coo + m1dok
     print(f"m2coo+m1dok (nnz={sum21coodok.getnbnz()}):")
     print(sum21coodok)
-
+    '''
     print("Test getslice")
     print("-------------")
 
@@ -389,4 +398,3 @@ if __name__ == "__main__":
 
     print("mcoo[0:3, 1:4]")
     print(mcoo[0:3, 2:4])
-'''
