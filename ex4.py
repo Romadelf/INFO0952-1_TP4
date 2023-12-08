@@ -266,8 +266,23 @@ class SparseCOO(SparseMatrix):
         - ValueError: If the dimensions of the matrices are incompatible or if
                       the type of the other matrix is not supported.
         """
-        print("Not implemented yet")
-        return None
+        if issubclass(type(other), SparseMatrix):
+            if self.m != other.m or self.n != other.n:
+                raise ValueError("Addition: incompatible matrix dimensions")
+            if type(other) is SparseCOO:
+                return self.__add_with_coo(other)
+            elif type(other) is SparseDOK:
+                return self.__add_with_dok(other)
+            else:
+                raise ValueError(
+                    "Addition of SparseCOO matrix with SparseMatrix"
+                    f"of type {type(other)} is impossible"
+                )
+        else:
+            raise ValueError(
+                "Addition of SparseCOO matrix with object of"
+                f"type {type(other)} is impossible"
+            )
 
     # TO BE COMPLETED
     def __getslice(self, rmin, rmax, cmin, cmax):
