@@ -10,8 +10,9 @@
 
 from bisect import bisect_left
 
-# See full repo at https://github.com/Romadelf/INFO0952-1_TP4 (access will be
-# made public after late due date)
+# See full repo including dev notes at
+# https://github.com/Romadelf/INFO0952-1_TP4 (access will be made public after
+# late due date)
 
 
 class SparseMatrix:
