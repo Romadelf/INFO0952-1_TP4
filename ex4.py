@@ -269,18 +269,19 @@ class SparseCOO(SparseMatrix):
             if self.m != other.m or self.n != other.n:
                 raise ValueError("Addition: incompatible matrix dimensions")
             added_coo_sm = self.__copy()
-            if type(other) is SparseCOO:
-                for i in range(other.nnz):
-                    added_coo_sm.__add_non_null_val(
-                        other.keys[i], other.values[i])
-            elif type(other) is SparseDOK:
-                for key, val in other.dict.items():
-                    added_coo_sm.__add_non_null_val(key, val)
-            else:
-                raise ValueError(
-                    "Addition of SparseCOO matrix with SparseMatrix"
-                    f"of type {type(other)} is impossible"
-                )
+            match other:
+                case SparseCOO():
+                    for i in range(other.nnz):
+                        added_coo_sm.__add_non_null_val(
+                            other.keys[i], other.values[i])
+                case SparseDOK():
+                    for key, val in other.dict.items():
+                        added_coo_sm.__add_non_null_val(key, val)
+                case _:
+                    raise ValueError(
+                        "Addition of SparseCOO matrix with SparseMatrix"
+                        f"of type {type(other)} is impossible"
+                    )
             return added_coo_sm
         else:
             raise ValueError(
