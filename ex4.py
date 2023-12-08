@@ -316,7 +316,7 @@ if __name__ == "__main__":
     print(m2coo)
 
     sum12coo = m1coo + m2coo
-    print(f"m1coo+m2coo (nnz={sum12coo.getnbnz()}):")
+''' print(f"m1coo+m2coo (nnz={sum12coo.getnbnz()}):")
     print(sum12coo)
 
     sum21coo = m2coo + m1coo
@@ -389,3 +389,4 @@ if __name__ == "__main__":
 
     print("mcoo[0:3, 1:4]")
     print(mcoo[0:3, 2:4])
+'''
