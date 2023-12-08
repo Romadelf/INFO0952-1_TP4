@@ -306,7 +306,7 @@ if __name__ == "__main__":
     print("------------")
 
     m1coo = SparseCOO(2, 3, [[4.0, 0.0, 1.0], [0.0, 0.0, -1.0]])
-    m1coo[1, 1] = -3.5
+    m1coo[1, 1] = 0
     m2coo = SparseCOO(2, 3, [[0.0, -1.0, -1.0], [0.0, 4.0, 0.0]])
 
     print(f"m1coo (nnz={m1coo.getnbnz()}):")
