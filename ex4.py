@@ -232,7 +232,7 @@ class SparseCOO(SparseMatrix):
                 self.nnz -= 1
             else:
                 self.values[i] = value
-        else:
+        elif value != 0:
             self.keys.insert(i, key)
             self.values.insert(i, value)
             self.nnz += 1
