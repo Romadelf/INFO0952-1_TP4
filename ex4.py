@@ -268,7 +268,7 @@ class SparseCOO(SparseMatrix):
         if issubclass(type(other), SparseMatrix):
             if self.m != other.m or self.n != other.n:
                 raise ValueError("Addition: incompatible matrix dimensions")
-            added_coo_sm = self.__copy()
+            added_coo_sm = self.copy()
             match other:
                 case SparseCOO():
                     for i in range(other.nnz):
@@ -289,7 +289,7 @@ class SparseCOO(SparseMatrix):
                 f"type {type(other)} is impossible"
             )
 
-    def __copy(self):
+    def copy(self):
         new_coo_sm = SparseCOO(self.m, self.n)
         new_coo_sm.keys = self.keys.copy()
         new_coo_sm.values = self.values.copy()
